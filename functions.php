@@ -54,17 +54,19 @@ add_filter('render_block', function ($block_content, $block, $instance) {
 }, 10, 3);
 
 // Disable Cloudflare Cache on nocache_headers (for MembershipWorks)
+// (override if already set)
 add_filter('nocache_headers', function ($headers) {
     return [
-        'cdn-cache-control' =>  $headers['cache-control'] ?? 'no-cache, must-revalidate, max-age=0'
+        'CDN-Cache-Control' =>  $headers['Cache-Control'] ?? 'no-cache, must-revalidate, max-age=0'
     ] + $headers;
 });
 
 // Set CDN-Cache-Control header same as Cache-Control if defined or default to 4h (+1Y stale-while-revalidate)
+// (don't override if already set)
 add_filter('wp_headers', function ($headers) {
-    return [
-        'cdn-cache-control' =>  $headers['cache-control'] ?? 'max-age=14400, stale-while-revalidate=31536000'
-    ] + $headers;
+    return $headers + [
+        'CDN-Cache-Control' =>  $headers['Cache-Control'] ?? 'max-age=14400, stale-while-revalidate=31536000'
+    ];
 });
 
 // Disable Quicklink on Membership pages (because these pages are not cached anyway)
