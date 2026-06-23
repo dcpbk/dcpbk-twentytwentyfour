@@ -182,47 +182,114 @@ add_filter(
 );
 
 /**
- * Completely disable comments in WordPress
+* Add custom post types for DCPBK.
+ * - A Leadership post type with the board and volunteer leaders of DCPBK.
+ * - A Jobs post type for job listings.
  */
-add_action('admin_init', function () {
-    // Redirect any user trying to access comments page
-    global $pagenow;
+add_action('init', 'dcpbk_custom_post_types');
+function dcpbk_custom_post_types()
+{
+    $leadership_args = [
+        'label'  => esc_html__('People', 'dcpbk'),
+        'labels' => [
+            'menu_name'          => esc_html__('People', 'dcpbk'),
+            'name_admin_bar'     => esc_html__('Person', 'dcpbk'),
+            'add_new'            => esc_html__('Add Person', 'dcpbk'),
+            'add_new_item'       => esc_html__('Add new Person', 'dcpbk'),
+            'new_item'           => esc_html__('New Person', 'dcpbk'),
+            'edit_item'          => esc_html__('Edit Person', 'dcpbk'),
+            'view_item'          => esc_html__('View Person', 'dcpbk'),
+            'update_item'        => esc_html__('Update Person', 'dcpbk'),
+            'all_items'          => esc_html__('All People', 'dcpbk'),
+            'search_items'       => esc_html__('Search People', 'dcpbk'),
+            'parent_item_colon'  => esc_html__('Parent Person', 'dcpbk'),
+            'not_found'          => esc_html__('No People found', 'dcpbk'),
+            'not_found_in_trash' => esc_html__('No People found in Trash', 'dcpbk'),
+            'name'               => esc_html__('People', 'dcpbk'),
+            'singular_name'      => esc_html__('Person', 'dcpbk'),
+        ],
+        'description'         => esc_html__('DCPBK Leadership', 'dcpbk'),
+        'public'              => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'show_ui'             => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'show_in_rest'        => true,
+        'capability_type'     => 'page',
+        'hierarchical'        => false,
+        'has_archive'         => true,
+        'query_var'           => false,
+        'can_export'          => true,
+        'show_in_menu'        => true,
+        'menu_position'       => 5,
+        'menu_icon'           => 'dashicons-groups',
+        'delete_with_user'    => false,
+        'supports' => [
+            'title',
+            'editor',
+            'thumbnail',
+            'revisions',
+            'excerpt',
+            'custom-fields',
+            'page-attributes',
+        ],
+    ];
 
-    if ($pagenow === 'edit-comments.php') {
-        wp_safe_redirect(admin_url());
-        exit;
-    }
+    $volunteer_args = [
+        'label'  => esc_html__('Job', 'dcpbk'),
+        'labels' => [
+            'menu_name'          => esc_html__('Jobs', 'dcpbk'),
+            'name_admin_bar'     => esc_html__('Job', 'dcpbk'),
+            'add_new'            => esc_html__('Add Posting', 'dcpbk'),
+            'add_new_item'       => esc_html__('Add new Posting', 'dcpbk'),
+            'new_item'           => esc_html__('New Posting', 'dcpbk'),
+            'edit_item'          => esc_html__('Edit Posting', 'dcpbk'),
+            'view_item'          => esc_html__('View Posting', 'dcpbk'),
+            'update_item'        => esc_html__('Update Posting', 'dcpbk'),
+            'all_items'          => esc_html__('All Postings', 'dcpbk'),
+            'search_items'       => esc_html__('Search Postings', 'dcpbk'),
+            'parent_item_colon'  => esc_html__('Parent Posting', 'dcpbk'),
+            'not_found'          => esc_html__('No Postings found', 'dcpbk'),
+            'not_found_in_trash' => esc_html__('No Postings found in Trash', 'dcpbk'),
+            'name'               => esc_html__('Postings', 'dcpbk'),
+            'singular_name'      => esc_html__('Posting', 'dcpbk'),
+        ],
+        'description'         => esc_html__('DCPBK Job Postings', 'dcpbk'),
+        'public'              => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'show_ui'             => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'show_in_rest'        => true,
+        'capability_type'     => 'page',
+        'hierarchical'        => false,
+        'has_archive'         => true,
+        'query_var'           => false,
+        'can_export'          => true,
+        'show_in_menu'        => true,
+        'menu_position'       => 5,
+        'menu_icon'           => 'dashicons-portfolio',
+        'delete_with_user'    => false,
+        'supports' => [
+            'title',
+            'editor',
+            'thumbnail',
+            'revisions',
+            'excerpt',
+            'custom-fields',
+            'page-attributes',
+        ],
+    ];
 
-    // Remove comments metabox from dashboard
-    remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
-
-    // Disable support for comments and trackbacks in post types
-    foreach (get_post_types() as $post_type) {
-        if (post_type_supports($post_type, 'comments')) {
-            remove_post_type_support($post_type, 'comments');
-            remove_post_type_support($post_type, 'trackbacks');
-        }
-    }
-});
-
-// Close comments on the front-end
-add_filter('comments_open', '__return_false', 20, 2);
-add_filter('pings_open', '__return_false', 20, 2);
-
-// Hide existing comments
-add_filter('comments_array', '__return_empty_array', 10, 2);
-
-// Remove comments page in menu
-add_action('admin_menu', function () {
-    remove_menu_page('edit-comments.php');
-});
-
-// Remove comments links from admin bar
-add_action('admin_bar_menu', function () {
-    remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);
-}, 0);
-
-/**
- * Disable XML-RPC 
- */
-add_filter('xmlrpc_enabled', '__return_false');
+    register_post_type('leadership', $leadership_args);
+    register_post_type('volunteer', $volunteer_args);
+}
+// Fix rewrite rules after theme activation
+add_action('after_switch_theme', 'my_rewrite_flush');
+function my_rewrite_flush()
+{
+    dcpbk_custom_post_types();
+    flush_rewrite_rules();
+}
