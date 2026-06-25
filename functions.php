@@ -181,8 +181,8 @@ add_filter(
     5
 );
 
-/**
-* Add custom post types for DCPBK.
+/** 
+ * Add custom post types for DCPBK.
  * - A Leadership post type with the board and volunteer leaders of DCPBK.
  * - A Jobs post type for job listings.
  */
@@ -190,23 +190,23 @@ add_action('init', 'dcpbk_custom_post_types');
 function dcpbk_custom_post_types()
 {
     $leadership_args = [
-        'label'  => esc_html__('People', 'dcpbk'),
+        'label'  => esc_html__('Leadership', 'dcpbk'),
         'labels' => [
-            'menu_name'          => esc_html__('People', 'dcpbk'),
-            'name_admin_bar'     => esc_html__('Person', 'dcpbk'),
-            'add_new'            => esc_html__('Add Person', 'dcpbk'),
-            'add_new_item'       => esc_html__('Add new Person', 'dcpbk'),
-            'new_item'           => esc_html__('New Person', 'dcpbk'),
-            'edit_item'          => esc_html__('Edit Person', 'dcpbk'),
-            'view_item'          => esc_html__('View Person', 'dcpbk'),
-            'update_item'        => esc_html__('Update Person', 'dcpbk'),
-            'all_items'          => esc_html__('All People', 'dcpbk'),
-            'search_items'       => esc_html__('Search People', 'dcpbk'),
-            'parent_item_colon'  => esc_html__('Parent Person', 'dcpbk'),
-            'not_found'          => esc_html__('No People found', 'dcpbk'),
-            'not_found_in_trash' => esc_html__('No People found in Trash', 'dcpbk'),
-            'name'               => esc_html__('People', 'dcpbk'),
-            'singular_name'      => esc_html__('Person', 'dcpbk'),
+            'menu_name'          => esc_html__('Leadership', 'dcpbk'),
+            'name_admin_bar'     => esc_html__('Leader', 'dcpbk'),
+            'add_new'            => esc_html__('Add Leader', 'dcpbk'),
+            'add_new_item'       => esc_html__('Add new Leader', 'dcpbk'),
+            'new_item'           => esc_html__('New Leader', 'dcpbk'),
+            'edit_item'          => esc_html__('Edit Leader', 'dcpbk'),
+            'view_item'          => esc_html__('View Leader', 'dcpbk'),
+            'update_item'        => esc_html__('Update Leader', 'dcpbk'),
+            'all_items'          => esc_html__('All Leaders', 'dcpbk'),
+            'search_items'       => esc_html__('Search Leaders', 'dcpbk'),
+            'parent_item_colon'  => esc_html__('Parent Leader', 'dcpbk'),
+            'not_found'          => esc_html__('No Leaders found', 'dcpbk'),
+            'not_found_in_trash' => esc_html__('No Leaders found in Trash', 'dcpbk'),
+            'name'               => esc_html__('Leadership', 'dcpbk'),
+            'singular_name'      => esc_html__('Leader', 'dcpbk'),
         ],
         'description'         => esc_html__('DCPBK Leadership', 'dcpbk'),
         'public'              => true,
@@ -234,26 +234,32 @@ function dcpbk_custom_post_types()
             'custom-fields',
             'page-attributes',
         ],
+        'rewrite' => [
+            'slug'       => 'about/leadership',
+            'with_front' => true,
+            'pages'      => true,
+            'feeds'      => true,
+        ],
     ];
 
     $volunteer_args = [
-        'label'  => esc_html__('Job', 'dcpbk'),
+        'label'  => esc_html__('Position', 'dcpbk'),
         'labels' => [
-            'menu_name'          => esc_html__('Jobs', 'dcpbk'),
-            'name_admin_bar'     => esc_html__('Job', 'dcpbk'),
-            'add_new'            => esc_html__('Add Posting', 'dcpbk'),
-            'add_new_item'       => esc_html__('Add new Posting', 'dcpbk'),
-            'new_item'           => esc_html__('New Posting', 'dcpbk'),
-            'edit_item'          => esc_html__('Edit Posting', 'dcpbk'),
-            'view_item'          => esc_html__('View Posting', 'dcpbk'),
-            'update_item'        => esc_html__('Update Posting', 'dcpbk'),
-            'all_items'          => esc_html__('All Postings', 'dcpbk'),
-            'search_items'       => esc_html__('Search Postings', 'dcpbk'),
-            'parent_item_colon'  => esc_html__('Parent Posting', 'dcpbk'),
-            'not_found'          => esc_html__('No Postings found', 'dcpbk'),
-            'not_found_in_trash' => esc_html__('No Postings found in Trash', 'dcpbk'),
-            'name'               => esc_html__('Postings', 'dcpbk'),
-            'singular_name'      => esc_html__('Posting', 'dcpbk'),
+            'menu_name'          => esc_html__('Positions', 'dcpbk'),
+            'name_admin_bar'     => esc_html__('Position', 'dcpbk'),
+            'add_new'            => esc_html__('Add Position', 'dcpbk'),
+            'add_new_item'       => esc_html__('Add new Position', 'dcpbk'),
+            'new_item'           => esc_html__('New Position', 'dcpbk'),
+            'edit_item'          => esc_html__('Edit Position', 'dcpbk'),
+            'view_item'          => esc_html__('View Position', 'dcpbk'),
+            'update_item'        => esc_html__('Update Position', 'dcpbk'),
+            'all_items'          => esc_html__('All Positions', 'dcpbk'),
+            'search_items'       => esc_html__('Search Positions', 'dcpbk'),
+            'parent_item_colon'  => esc_html__('Parent Position', 'dcpbk'),
+            'not_found'          => esc_html__('No Positions found', 'dcpbk'),
+            'not_found_in_trash' => esc_html__('No Positions found in Trash', 'dcpbk'),
+            'name'               => esc_html__('Positions', 'dcpbk'),
+            'singular_name'      => esc_html__('Position', 'dcpbk'),
         ],
         'description'         => esc_html__('DCPBK Job Postings', 'dcpbk'),
         'public'              => true,
@@ -280,6 +286,12 @@ function dcpbk_custom_post_types()
             'excerpt',
             'custom-fields',
             'page-attributes',
+        ],
+        'rewrite' => [
+            'slug'       => 'volunteer',
+            'with_front' => true,
+            'pages'      => true,
+            'feeds'      => true,
         ],
     ];
 
